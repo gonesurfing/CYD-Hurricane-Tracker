@@ -1,0 +1,22 @@
+idf_component_register(
+    SRCS
+        main.c
+        error_image.c
+        touch_init.c
+        lcd_init.c
+        xml_parse.c
+        time_sync.c
+        wifi_manager.c
+        http_client.c
+    INCLUDE_DIRS
+        include
+    PRIV_REQUIRES
+        esp_lcd
+        esp_driver_gpio
+        esp_wifi
+        esp_http_client
+        nvs_flash
+        esp_event
+        esp-tls
+        json
+)

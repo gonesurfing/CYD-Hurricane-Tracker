@@ -1,0 +1,57 @@
+menu "Hurricane Tracking Configuration"
+
+    config WIFI_SSID
+        string "WiFi SSID"
+        default "myssid"
+        help
+            SSID (network name) for the example to connect to.
+
+    config WIFI_PASSWORD
+        string "WiFi Password"
+        default "mypassword"
+        help
+            WiFi password (WPA or WPA2) for the example to use.
+
+    config ENABLE_TOUCHSCREEN
+        bool "Enable Touchscreen Support"
+        default y
+        help
+            Enable touchscreen initialization and touch-based backlight control.
+            Disable this for hardware versions that lack a touchscreen.
+
+    config ENABLE_PIR_BACKLIGHT_TIMER
+        bool "Enable PIR Motion Backlight Timer"
+        depends on !ENABLE_TOUCHSCREEN
+        default y
+        help
+            Enable PIR sensor motion detection to control backlight timer.
+            This option is only available when touchscreen support is disabled.
+            When enabled, the PIR sensor will detect motion and reset the backlight timer.
+
+    choice TIME_SYNC_METHOD
+        prompt "Time Synchronization Method"
+        default TIME_SYNC_SNTP
+        help
+            Choose the method for time synchronization.
+
+        config TIME_SYNC_SNTP
+            bool "SNTP (Network Time Protocol)"
+            help
+                Use SNTP for time synchronization (requires port 123 access).
+
+        config TIME_SYNC_WORLDTIME_API
+            bool "WorldTimeAPI (HTTP)"
+            help
+                Use WorldTimeAPI.org for time synchronization via HTTP.
+                This is useful when port 123 (NTP) is blocked.
+
+
+    endchoice
+
+    config CONVERSION_API_URL
+        string "Conversion API URL"
+        default ""
+        help
+            URL of the image conversion API (set privately via menuconfig, not committed to repository).
+
+endmenu
