@@ -24,7 +24,7 @@ static const char* static_image_names[STATIC_IMAGE_COUNT] = STATIC_IMAGE_NAMES_I
 
 
 // Helper function to check if URL is one of the Atlantic outlook images that should be cropped
-static bool is_atlantic_outlook_image(const char* url) {
+static bool is_outlook_image(const char* url) {
     if (url == NULL) {
         return false;
     }
@@ -227,12 +227,9 @@ esp_err_t http_download_image(int image_index)
     
     // Using the conversion API to convert and download the NHC image
     ESP_LOGI(TAG, "Using conversion API to convert image %d from: %s", image_index, image_urls[image_index]);
-    
-    // Check if this is an Atlantic outlook image that should be cropped
-    bool should_crop = is_atlantic_outlook_image(image_urls[image_index]);
-    
+        
     const char *post_data_format;
-    if (should_crop) {
+    if (is_outlook_image(image_urls[image_index])) {
         ESP_LOGI(TAG, "Adding crop parameters for Atlantic outlook image %d", image_index);
         post_data_format = 
             "{"
@@ -245,6 +242,7 @@ esp_err_t http_download_image(int image_index)
             "\"crop\": {\"top\": 65, \"bottom\": 70}"
             "}";
     } else {
+        ESP_LOGI(TAG, "Adding crop parameters for forecast cone %d", image_index);
         post_data_format = 
             "{"
             "\"url\": \"%s\","
@@ -252,7 +250,8 @@ esp_err_t http_download_image(int image_index)
             "\"dither\": \"true\","  // Dithering
             "\"output\": \"bin\","    // Binary output format
             "\"bigEndian\": false,"
-            "\"maxSize\": \"800x420\"" // TODO: make this configurable
+            "\"maxSize\": \"800x420\","
+            "\"crop\": {\"top\": 50, \"bottom\": 40, \"left\": 7, \"right\": 7}"
             "}";
     }
     

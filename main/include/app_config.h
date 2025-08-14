@@ -17,7 +17,7 @@ extern "C" {
 #define IMAGE_DISPLAY_INTERVAL_MS (10 * 1000)  // 10 seconds between images
 
 /* Backlight Settings */
-#define BACKLIGHT_TIMEOUT_MS (20 * 1000)  // 120 seconds timeout
+#define BACKLIGHT_TIMEOUT_MS (60 * 1000)  // 120 seconds timeout
 
 /* PIR sensor configuration (for non-touchscreen version) */
 #define PIR_SENSOR_GPIO GPIO_NUM_18
